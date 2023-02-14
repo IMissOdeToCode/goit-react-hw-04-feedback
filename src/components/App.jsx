@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 
 import Section from './FeedBack/Section';
 import FeedbackOptions from './FeedBack/FeedbackOptions';
@@ -7,80 +7,70 @@ import Notification from './FeedBack/Notification';
 
 import css from './FeedBack/FeedBack.module.css';
 
-class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  leaveVote(name) {
-    this.setState(prevState => {
-      return {
-        [name]: prevState[name] + 1,
-      };
-    });
-  }
+  const handleChange = event => {
+    const { name } = event.target;
 
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    const total = good + neutral + bad;
-    return total;
-  };
+    switch (name) {
+      case 'good':
+        setGood(state => state + 1);
+        break;
 
-  countPositiveFeedbackPercentage = () => {
-    const total = this.countTotalFeedback();
-    const { good } = this.state;
+      case 'bad':
+        setBad(state => state + 1);
+        break;
 
-    if (!total) {
-      return 0;
+      case 'neutral':
+        setNeutral(state => state + 1);
+        break;
+
+      default:
+        break;
     }
-
-    const percentage = ((good / total) * 100).toFixed();
-    return Number(percentage);
   };
+  const options = ['good', 'neutral', 'bad'];
+  const total = good + bad + neutral;
 
-  render() {
-    const total = this.countTotalFeedback();
-    const positivePercentage = this.countPositiveFeedbackPercentage();
-    const options = Object.keys(this.state);
+  const percentage = total
+    ? Number(((good / total) * 100).toFixed())
+    : Number(0);
 
-    return (
-      <>
-        <div className={css.wrapper}>
-          <Section
-            title={'Please leave feedback'}
-            children={
-              <div className={css.buttonsBlock}>
-                <FeedbackOptions
-                  options={options}
-                  onClick={this.leaveVote.bind(this)}
+  return (
+    <>
+      <div className={css.wrapper}>
+        <Section
+          title={'Please leave feedback'}
+          children={
+            <div className={css.buttonsBlock}>
+              <FeedbackOptions options={options} onClick={handleChange} />
+            </div>
+          }
+        />
+        <Section
+          title={'Statistics'}
+          children={
+            <>
+              {total < 100 ? (
+                <Statistics
+                  good={good}
+                  neutral={neutral}
+                  bad={bad}
+                  total={total}
+                  positivePercentage={percentage}
                 />
-              </div>
-            }
-          />
-          <Section
-            title={'Statistics'}
-            children={
-              <>
-                {total > 0 ? (
-                  <Statistics
-                    good={this.state.good}
-                    neutral={this.state.neutral}
-                    bad={this.state.bad}
-                    total={total}
-                    positivePercentage={positivePercentage}
-                  />
-                ) : (
-                  <Notification message={'There is no feedback'} />
-                )}
-              </>
-            }
-          />
-        </div>
-      </>
-    );
-  }
-}
+              ) : (
+                <Notification message={'There is no feedback'} />
+              )}
+            </>
+          }
+        />
+      </div>
+    </>
+  );
+};
 
 export default App;

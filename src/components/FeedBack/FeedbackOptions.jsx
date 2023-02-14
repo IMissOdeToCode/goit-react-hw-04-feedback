@@ -7,10 +7,9 @@ const FeedbackOptions = ({ options, onClick }) => {
     <button
       className={css.button}
       key={option}
+      name={option}
       type="button"
-      onClick={() => {
-        onClick(option);
-      }}
+      onClick={onClick}
     >
       {option}
     </button>
