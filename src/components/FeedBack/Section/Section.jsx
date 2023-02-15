@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import css from './FeedBack.module.css';
+import css from './Section.module.css';
 
 const Section = ({ title, children }) => (
   <>

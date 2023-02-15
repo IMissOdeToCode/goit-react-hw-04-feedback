@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import css from './FeedBack.module.css';
+import css from './FeedbackOptions.module.css';
 
 const FeedbackOptions = ({ options, onClick }) => {
   return options.map(option => (

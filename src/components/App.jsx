@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import Section from './FeedBack/Section';
-import FeedbackOptions from './FeedBack/FeedbackOptions';
-import Statistics from './FeedBack/Statistics';
-import Notification from './FeedBack/Notification';
+import Section from './FeedBack/Section/Section';
+import FeedbackOptions from './FeedBack/FeedbackOptions/FeedbackOptions';
+import Statistics from './FeedBack/Statistics/Statistics';
+import Notification from './FeedBack/Notification/Notification';
 
-import css from './FeedBack/FeedBack.module.css';
+import css from './App.module.css';
 
 const App = () => {
   const [good, setGood] = useState(0);
